@@ -1,6 +1,28 @@
 import { useState } from "react";
 export default function Produto(props){
     const [quantidade, setQuantidade] = useState(1);
+    function adicionarItem(){
+        const itemAdd={
+            "qtd":parseInt(quantidade),
+            "produto":props.produto
+        }
+        let lista = props.listaItens.filter((item)=>{
+            if(item.produto.id === props.produto.id){
+                itemAdd.qtd+=parseInt(item.qtd)
+                return itemAdd;
+            }
+        })
+        if(lista.length === 0){
+            props.setListaItens([...props.listaItens, itemAdd]);
+        }
+        else{
+            props.setListaItens(props.listaItens.map((item)=>{
+                return item.produto.id === itemAdd.produto.id ?  itemAdd : item
+            }))
+        }
+        localStorage.setItem("Carrinho",JSON.stringify(props.listaItens));
+    }
+
     return(
         <div style={{
             width: '200px',
@@ -64,7 +86,9 @@ export default function Produto(props){
                     min={1}/>
             </div>
             <div id='botao-comprar'>
-                <button 
+                <button onClick={()=>{
+                    adicionarItem();
+                }}
                     style={{
                         backgroundColor: 'rgb(255,60,60)',
                         color: 'white',

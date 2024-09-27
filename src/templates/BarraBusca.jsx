@@ -57,8 +57,10 @@ export default function BarraBusca(props) {
                         }}
                     >Buscar</button>
                 </div>
-                <div>
-                    <Carrinho />
+                <div onClick={()=>{
+                    props.setMostrarCarrinho(true)
+                }}>
+                    <Carrinho qtdCarrinho={props.quantidadeItens}/>
                 </div>
             </div>
             <div style={{
